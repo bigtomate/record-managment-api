@@ -1,0 +1,53 @@
+{
+  "records": [
+    {
+      "description": "chou zhu's fav",
+      "id": 1,
+      "artistname": "Kate Bush",
+      "damage": "",
+      "cover_image": "https://tubbs-on-aws.s3.eu-central-1.amazonaws.com/Katebushhoundsoflove_wiki.png",
+      "year": 1985,
+      "name": "Hounds of Love",
+      "title": "",
+      "worth": "100 Pound",
+      "serial_nr": ""
+    },
+    {
+      "description": "my fav",
+      "id": 2,
+      "artistname": "Kate Bush",
+      "damage": "",
+      "cover_image": "https://tubbs-on-aws.s3.eu-central-1.amazonaws.com/The_Kick_Inside_(Album_Artwork).png",
+      "year": 1978,
+      "name": "The Kick Inside",
+      "title": "",
+      "worth": "500 Pound",
+      "serial_nr": ""
+    },
+    {
+      "description": "the best of kate",
+      "id": 3,
+      "artistname": "Kate Bush",
+      "damage": "",
+      "cover_image": "https://upload.wikimedia.org/wikipedia/en/thumb/0/06/Kate_Bush_-_50_Words_for_Snow.png/220px-Kate_Bush_-_50_Words_for_Snow.png",
+      "year": 2011,
+      "name": "50 words of snow",
+      "title": "",
+      "worth": "500 dollors",
+      "serial_nr": ""
+    },
+    {
+      "id": 4,
+      "name": "Xing Liu",
+      "title": "",
+      "description": "it works !!!!!!!",
+      "year": 2024,
+      "artistname": "xing liu",
+      "worth": "",
+      "damage": "",
+      "serial_nr": "",
+      "cover_image": "https://media.licdn.com/dms/image/v2/C5603AQH_DMSI5_vxGQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1517041142478?e=1731542400&v=beta&t=vriSfJBHvwVkS8JvxbmuW0o7NhyK81vu68zcAmzqLbA"
+    }
+  ],
+  "editedRecord": null
+}
