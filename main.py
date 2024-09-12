@@ -7,6 +7,7 @@ from models import Artists
 from models import Records
 from database import engine, SessionLocal
 from typing import Annotated
+# why sqlaclchemy, anyother orm? version 
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -17,7 +18,7 @@ origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
     "http://localhost",
-    "http://localhost:8080",
+    "http://localhost:4202",
     "http://localhost:4200",
 ]
 
@@ -29,6 +30,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# sessionLocal ?
 def get_db():
     db = SessionLocal()
     try:
@@ -36,7 +38,10 @@ def get_db():
     finally:
         db.close()
 
+#dependency injection
 db_dependency = Annotated[Session, Depends(get_db)]
+
+# basemodel is the model view (DTO)
 class RecordRequest(BaseModel):
     name: str
     title: str
@@ -50,30 +55,38 @@ class RecordRequest(BaseModel):
     cover_image:str
 
 @app.get("/artists")
-async def read_all_artists(db: db_dependency):
+def read_all_artists(db: db_dependency):
     return db.query(Artists).all()
 
 @app.get("/records")
-async def read_all_records(db: db_dependency):
+def read_all_records(db: db_dependency):
     return db.query(Records).all()
 
 @app.get("/records/{record_id}", status_code=status.HTTP_200_OK)
-async def read_recordById(db: db_dependency, record_id: int = Path(gt = 0)):
+def read_recordById(db: db_dependency, record_id: int = Path(gt = 0)):
+    record_model = db.query(Records).filter(Records.id == record_id).first()
+    if record_model is not None:
+        return record_model
+    raise HTTPException(status_code = 404, detail ='record_not_found');
+
+# query parameter
+@app.get("/records/{id}", status_code=status.HTTP_200_OK)
+def read_recordById_queryParam(db: db_dependency, id: int):
     record_model = db.query(Records).filter(Records.id == record_id).first()
     if record_model is not None:
         return record_model
     raise HTTPException(status_code = 404, detail ='record_not_found');
 
 @app.post("/records", status_code=status.HTTP_201_CREATED)
-async def createRecord(db: db_dependency, record_request: RecordRequest):
+def createRecord(db: db_dependency, record_request: RecordRequest):
     record_model = Records(**record_request.dict())
     db.add(record_model)
     db.commit()
     return record_request
-
+  
  # path varibale must as the last !!
 @app.put("/records/{record_id}", status_code=status.HTTP_200_OK)
-async def updateRecord(db: db_dependency, 
+def updateRecord(db: db_dependency, 
                        record_request: RecordRequest,
                        record_id: int = Path(gt = 0) 
                        ):
@@ -91,3 +104,11 @@ async def updateRecord(db: db_dependency,
   record_model.cover_image = record_request.cover_image
   db.commit()
   return record_request
+
+@app.delete("/records/delete/{record_id}", status_code=status.HTTP_204_NO_CONTENT)
+def deleteRecord(db: db_dependency, record_id: int):
+      record_model = db.query(Records).filter(Records.id == record_id).first()
+      if record_model is None:
+       raise HTTPException(status_code = 404, detail ='record_not_found')
+      db.query(Records).filter(Records.id == record_id).delete()
+      db.commit()
