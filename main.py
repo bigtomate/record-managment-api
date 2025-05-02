@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends, Path, HTTPException
 from pydantic import BaseModel, Field
 from starlette import status
+from starlette.responses import RedirectResponse
 
 import models
 from models import Artists
@@ -40,6 +41,11 @@ def get_db():
 
 #dependency injection
 db_dependency = Annotated[Session, Depends(get_db)]
+
+
+@app.get("/")
+async def docs_redirect():
+    return RedirectResponse(url='/docs')
 
 # basemodel is the model view (DTO)
 class RecordRequest(BaseModel):
